@@ -2,8 +2,10 @@ defmodule HelloPhoenix.Mixfile do
   use Mix.Project
 
   def project do
+    {git_sha, _exit_code} = System.cmd("git", ["rev-parse", "--short", "HEAD"])
+
     [app: :hello_phoenix,
-     version: "0.0.1",
+     version: "0.0.1-#{git_sha}",
      elixir: "~> 1.0",
      elixirc_paths: elixirc_paths(Mix.env),
      compilers: [:phoenix] ++ Mix.compilers,
