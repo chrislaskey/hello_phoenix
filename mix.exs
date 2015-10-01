@@ -5,7 +5,7 @@ defmodule HelloPhoenix.Mixfile do
     {git_sha, _exit_code} = System.cmd("git", ["rev-parse", "--short", "HEAD"])
 
     [app: :hello_phoenix,
-     version: "0.0.1-#{git_sha}",
+     version: "0.0.1-#{String.strip(git_sha)}",
      elixir: "~> 1.0",
      elixirc_paths: elixirc_paths(Mix.env),
      compilers: [:phoenix] ++ Mix.compilers,
