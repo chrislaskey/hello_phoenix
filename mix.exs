@@ -2,16 +2,26 @@ defmodule HelloPhoenix.Mixfile do
   use Mix.Project
 
   def project do
-    {git_sha, _exit_code} = System.cmd("git", ["rev-parse", "--short", "HEAD"])
-
     [app: :hello_phoenix,
-     version: "0.0.1-#{String.strip(git_sha)}",
+     version: version,
      elixir: "~> 1.0",
      elixirc_paths: elixirc_paths(Mix.env),
      compilers: [:phoenix] ++ Mix.compilers,
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps]
+  end
+
+  defp version do
+    System.cmd("git", ["describe", "--always", "--tags"])
+    |> Tuple.to_list
+    |> List.first
+    |> String.strip
+    |> String.split("-")
+    |> case do
+      [tag] -> tag
+      [tag, _num_commits, commit] -> "#{tag}-#{commit}"
+    end
   end
 
   # Configuration for the OTP application
